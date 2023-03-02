@@ -2,26 +2,31 @@
 
 require '../appnew/connect.php';
 
-
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
     $response = array();
-    $email = $_POST['email'];
-    $password = md5($_POST['password']);
-    
-    $check = "SELECT * FROM tbl_users WHERE email='$email' AND password='$password'";
-    $result = mysqli_query($connect, $check);
+    if (isset($_POST['email'])) {
+        $email = $_POST['email'];
+        $password = md5($_POST['password']);
 
-    if (isset($result)) {
-        $response['value'] = 1;
-        $response['message'] = "Login Berhasil";
-        echo json_encode($response);
+        $check = "SELECT username, email, password FROM tbl_users WHERE email='$email' AND password='$password'";
+        $result = mysqli_fetch_array(mysqli_query($connect, $check));
 
+        if (isset($result)) {
+            $response['value'] = 1;
+            $response['message'] = "Login Berhasil";
+            $response['username'] = $result['username'];
+            $response['email'] = $result['email'];
+            echo json_encode($response);
+
+        } else {
+            $response['value'] = 0;
+            $response['message'] = "Login Gagal";
+            echo json_encode($response);
+        }
     } else {
         $response['value'] = 0;
-        $response['message'] = "Login Gagal";
+        $response['message'] = "Email tidak ditemukan";
         echo json_encode($response);
     }
 }
-
 ?>

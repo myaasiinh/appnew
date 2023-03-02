@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo json_encode($response);
     } else {
 
-        $insert = "INSERT INTO tbl_users VALUES(NULL, '$username', '$password', '$email', '1', NOW())";
+        $insert = "INSERT INTO tbl_users VALUES(NULL, '$username', '$email', '$password', '1', NOW())";
         if (mysqli_query($connect,$insert)) {
             $response['value'] = 1;
             $response['message'] = "Success";
