@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $email = $_POST['email'];
         $password = md5($_POST['password']);
 
-        $check = "SELECT username, email, password FROM tbl_users WHERE email='$email' AND password='$password'";
+        $check = "SELECT id_users, username, email, password FROM tbl_users WHERE email='$email' AND password='$password'";
         $result = mysqli_fetch_array(mysqli_query($connect, $check));
 
         if (isset($result)) {
@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $response['message'] = "Login Berhasil";
             $response['username'] = $result['username'];
             $response['email'] = $result['email'];
+            $response['id_users'] = $result['id_users'];
             echo json_encode($response);
 
         } else {
